@@ -19,6 +19,28 @@ exports.getContact = async (reqParams) => {
 };
 
 exports.postContact = async (reqBody) => {
+    let emptyInput = []
+
+    if(!reqBody.first_name) {
+        emptyInput.push('first_name');
+    }
+
+    if(!reqBody.last_name) {
+        emptyInput.push('last_name');
+    }
+
+    if(!reqBody.email) {
+        emptyInput.push('email');
+    }
+
+    if(!reqBody.phone) {
+        emptyInput.push('phone')
+    }
+
+    if(emptyInput.length > 0) {
+        throw new ErrorResponse(400, emptyInput);
+    }
+
     const post = await userModel.create(reqBody);
 
     return post;
