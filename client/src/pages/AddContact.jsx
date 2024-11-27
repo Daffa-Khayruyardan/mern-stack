@@ -4,9 +4,11 @@ import axios from 'axios';
 
 // import custom hooks
 import useContactContext from '../hooks/useContactContext';
+import useAuthContext from '../hooks/useAuthContext';
 
 const AddContact = () => {
     const {dispatch} = useContactContext();
+    const {user} = useAuthContext();
 
     const [firstName,setFirstName] = useState('');
     const [lastName,setLastName] = useState('');
@@ -19,12 +21,22 @@ const AddContact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if(!user) {
+            return
+        }
+
         try {
+            // console.log(user);  
+
             const response = await axios.post("http://localhost:3000/api/v1/contact", {
                 first_name: firstName,
                 last_name: lastName,
                 email,
                 phone,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
             })      
     
             dispatch({type: 'ADD_CONTACT', payload: response.data});

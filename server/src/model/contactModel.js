@@ -17,7 +17,11 @@ const contactSchema = new mongoose.Schema({
     phone: {
         type: String,
         required: true,
+    },
+    user_id: {
+        type: String,
+        required: true,
     }
 });
 
-module.exports = mongoose.model('users', contactSchema);
+module.exports = mongoose.model('contacts', contactSchema);

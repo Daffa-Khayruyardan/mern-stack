@@ -5,11 +5,12 @@ import App from './App.jsx';
 
 // import contexts
 import ContactContextProvider from './context/contactContextProvider';
+import AuthContextProvider from './context/authContextProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ContactContextProvider>
-      <App />
-    </ContactContextProvider>
-  </StrictMode>,
+    <AuthContextProvider>
+      <ContactContextProvider>
+        <App />
+      </ContactContextProvider>
+    </AuthContextProvider>
 )

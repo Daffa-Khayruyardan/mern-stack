@@ -1,10 +1,18 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
 
+// import custom hooks
+import useAuthContext from '../hooks/useAuthContext';
+
 const Navbar = () => {
     const {pathname} = useLocation();
 
-    
+    const {dispatch} = useAuthContext();
+
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        dispatch({type: 'LOGOUT'});
+    };
 
     return (
         <div className='h-12 mt-1 mb-1 justify-between ml-12 mr-12 flex items-center bg-white'>
@@ -20,7 +28,7 @@ const Navbar = () => {
             {/* user info */}
             <div className='flex items-center space-x-7'>
                 <h1>daffakhayru@gmail.com</h1>
-                <button className='border-2 border-green-600 p-2 rounded-md'>Logout</button>
+                <button onClick={() => handleLogout()} className='hover:bg-green-600 hover:text-white duration-200 border-2 border-green-600 p-2 rounded-md'>Logout</button>
             </div>
         </div>
     );

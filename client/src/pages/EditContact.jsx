@@ -3,6 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 
 // import custom hooks
+import useAuthContext from '../hooks/useAuthContext';
 
 const AddContact = () => {
     const [firstName,setFirstName] = useState('');
@@ -14,9 +15,15 @@ const AddContact = () => {
 
     const {id} = useParams();
 
+    const {user} = useAuthContext();
+
     useEffect(() => {
         const fetchContact = async () => {
-            const response = await axios.get(`http://localhost:3000/api/v1/contact/${id}`);
+            const response = await axios.get(`http://localhost:3000/api/v1/contact/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            });
 
             setFirstName(response.data.first_name);
             setLastName(response.data.last_name);
@@ -24,8 +31,10 @@ const AddContact = () => {
             setPhone(response.data.phone);
         };
 
-        fetchContact();
-    }, []);
+        if(user) {
+            fetchContact();
+        }
+    }, [user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,6 +44,10 @@ const AddContact = () => {
             last_name: lastName,
             email,
             phone,
+        }, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
         })
 
         navigate('/home');

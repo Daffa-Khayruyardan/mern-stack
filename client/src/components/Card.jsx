@@ -1,17 +1,23 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // import custom hooks
 import useContactContext from '../hooks/useContactContext';
-import { useNavigate } from 'react-router-dom';
+import useAuthContext from '../hooks/useAuthContext';
 
 const Card = ({contact}) => {
     const {dispatch} = useContactContext(); 
+    const {user} = useAuthContext();
 
     const navigate = useNavigate();
 
     const deleteContact = async () => {
-        const response = await axios.delete(`http://localhost:3000/api/v1/contact/${contact._id}`);
+        const response = await axios.delete(`http://localhost:3000/api/v1/contact/${contact._id}`, {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        });
 
         dispatch({type: 'DELETE_CONTACT', payload: response.data})
     };

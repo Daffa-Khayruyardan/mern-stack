@@ -7,7 +7,7 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 // import routes
 const contactRoutes = require('./routes/contactRoute');
-
+const userRoutes = require('./routes/userRoute');
 
 const app = express();
 
@@ -17,6 +17,7 @@ app.use(express.json());
 
 // inject all routes here
 app.use('/api/v1', contactRoutes);
+app.use('/api/v1', userRoutes);
 
 // handle error using middleware
 app.use(errorMiddleware);
