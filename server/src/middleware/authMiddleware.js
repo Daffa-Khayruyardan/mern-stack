@@ -13,7 +13,7 @@ const authMiddleware = async (req,res,next) => {
     try {
         const {_id} = await jwt.verify(token, process.env.SECRET_KEY);
 
-        req.user = userModel.findOne({_id}).select('_id');
+        req.user = await userModel.findOne({_id}).select('_id');
         next();
     }catch(err) {
         res.status(401).json({Error: "Invalid token"})

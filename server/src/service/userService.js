@@ -39,7 +39,7 @@ exports.login = async (reqBody) => {
     }
 
     const payload = {
-        email: reqBody.email,
+        _id: isUserExist._id,
     }
 
     const signToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '2h' });

@@ -33,7 +33,7 @@ const Homepage = () => {
     }, [user]);
 
     
-    console.log(user);
+    console.log(contacts);
 
     return (
         <div className='flex-1 flex pt-5 pr-24 pl-24 items-center flex-col bg-gray-300'>

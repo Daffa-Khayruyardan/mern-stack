@@ -2,8 +2,10 @@ const userModel = require('../model/contactModel');
 const mongoose = require('mongoose');
 const ErrorResponse = require('../util/errorResponse');
 
-exports.getContacts = async () => {
-    const findAll = await userModel.find({});
+exports.getContacts = async (userId) => {
+    const findAll = await userModel.find({user_id: userId});
+
+    console.log(findAll);
 
     return findAll;
 };
@@ -18,7 +20,7 @@ exports.getContact = async (reqParams) => {
     return find;
 };
 
-exports.postContact = async (reqBody) => {
+exports.postContact = async (userId,reqBody) => {
     let emptyInput = []
 
     if(!reqBody.first_name) {
@@ -41,7 +43,17 @@ exports.postContact = async (reqBody) => {
         throw new ErrorResponse(400, emptyInput);
     }
 
-    const post = await userModel.create(reqBody);
+    if(!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new ErrorResponse(400, "Invalid user id type");
+    }
+
+    const post = await userModel.create({
+        first_name: reqBody.first_name,
+        last_name: reqBody.last_name,
+        email: reqBody.email,
+        phone: reqBody.phone,
+        user_id: userId,
+    });
 
     return post;
 };

@@ -2,7 +2,7 @@ const contactService = require('../service/contactService');
 
 exports.getContacts = async (req,res,next) => {
     try {
-        const response = await contactService.getContacts();
+        const response = await contactService.getContacts(req.user._id);
 
         res.status(200).json(response)
     }catch(err) {
@@ -22,7 +22,7 @@ exports.getContact = async (req,res,next) => {
 
 exports.postContact = async (req,res,next) => {
     try {
-        const response = await contactService.postContact(req.body);
+        const response = await contactService.postContact(req.user._id,req.body);
 
         res.status(200).json(response)
     }catch(err) {
