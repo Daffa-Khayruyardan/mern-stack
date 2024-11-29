@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // import custom hooks
 import useAuthContext from '../hooks/useAuthContext';
@@ -10,12 +10,15 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [error,setError] = useState('');
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try{ 
             const response = await axios.post(`http://localhost:3000/api/v1/register`, {email,password});
             
+            navigate('/login');
         }catch(err) {
             if(err.response.data.Error === 'User already exist') {
                 setError('user already exist');

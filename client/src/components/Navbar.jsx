@@ -7,7 +7,7 @@ import useAuthContext from '../hooks/useAuthContext';
 const Navbar = () => {
     const {pathname} = useLocation();
 
-    const {dispatch} = useAuthContext();
+    const {user,dispatch} = useAuthContext();
 
     const handleLogout = () => {
         localStorage.removeItem('user');
@@ -23,11 +23,12 @@ const Navbar = () => {
             <div className='flex items-center space-x-7'>
                 <Link to="/home" className={`${pathname === '/home' ? 'bg-green-600 p-2 rounded-full text-white' : ''}`}>Homepage</Link>
                 <Link to="/add" className={`${pathname === '/add' ? 'bg-green-600 p-2 rounded-full text-white' : ''}`}>Add</Link>
+                <Link to="/profile" className={`${pathname === '/profile' ? 'bg-green-600 p-2 rounded-full text-white' : ''}`}>Profile</Link>
             </div>
 
             {/* user info */}
             <div className='flex items-center space-x-7'>
-                <h1>daffakhayru@gmail.com</h1>
+                <h1>{user.email}</h1>
                 <button onClick={() => handleLogout()} className='hover:bg-green-600 hover:text-white duration-200 border-2 border-green-600 p-2 rounded-md'>Logout</button>
             </div>
         </div>

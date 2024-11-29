@@ -5,9 +5,13 @@ export const authContext = createContext();
 const authReducer = (state,action) => {
     switch(action.type) {
         case 'LOGIN': 
-            return { user: action.payload }
+            return { user: action.payload };
         case 'LOGOUT':
-            return { user: null }
+            return { user: null };
+        case 'UPDATE_USER':
+            const getUserData = JSON.parse(localStorage.getItem('user'))
+
+            return { user: {email: action.payload, token: getUserData.token, _id: getUserData._id} } ;
         default: 
             return state;
     }

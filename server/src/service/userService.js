@@ -1,5 +1,6 @@
 const bcyrpt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 // import model
@@ -7,6 +8,16 @@ const userModel = require('../model/userModel');
 
 // import custom error
 const errorResponse = require('../util/errorResponse');
+
+exports.getProfile = async (reqParams) => {
+    if(!mongoose.Types.ObjectId.isValid(reqParams)) {
+        throw new errorResponse(400, "Invalid object id");
+    }
+    
+    const getProfile = userModel.findById(reqParams);
+
+    return getProfile;
+};
 
 exports.register = async (reqBody) => {
     const isUserExist =  await userModel.findOne({email: reqBody.email});
@@ -23,6 +34,16 @@ exports.register = async (reqBody) => {
     });
 
     return createNewUser;
+};
+
+exports.updateUser = async (reqParams,reqBody) => {
+    if(!mongoose.Types.ObjectId.isValid(reqParams)) {
+        throw new errorResponse(400, "Id is not valid");
+    }
+
+    const update = await userModel.findByIdAndUpdate(reqParams, { email: reqBody.email }) 
+
+    return update;
 };
 
 exports.login = async (reqBody) => {
@@ -45,9 +66,16 @@ exports.login = async (reqBody) => {
     const signToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '2h' });
 
     const returnValue = {
+        _id: isUserExist._id,
         email: reqBody.email,
         token: signToken,
     }
 
     return returnValue;
+};
+
+exports.deleteUser = async (reqParams) => {
+    const deleteUser = await userModel.findByIdAndDelete(reqParams)
+
+    return deleteUser
 };

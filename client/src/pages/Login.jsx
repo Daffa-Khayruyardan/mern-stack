@@ -12,8 +12,6 @@ const Login = () => {
 
     const {state,dispatch} = useAuthContext();
 
-    const navigate = useNavigate();
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -23,9 +21,9 @@ const Login = () => {
             localStorage.setItem('user', JSON.stringify(response.data));
 
             dispatch({type: 'LOGIN', payload: response.data});
-
-            // navigate('/home');
         }catch(err) {
+            console.log(err.response.data.Error);
+
             if(err.response.data.Error === 'Email is invalid') {
                 setError('email invalid');
             }
@@ -37,11 +35,11 @@ const Login = () => {
 
     let errorMSG;
 
-    if(errorMSG === 'email invalid') {
+    if(error === 'email invalid') {
         errorMSG = <h1>Email is invalid</h1>
     }
 
-    if(errorMSG === 'password invalid') {
+    if(error === 'password invalid') {
         errorMSG = <h1>Password is invalid</h1>
     }
 

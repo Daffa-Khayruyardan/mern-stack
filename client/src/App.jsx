@@ -9,6 +9,7 @@ import AuthLayouts from './layouts/AuthLayouts';
 import Homepage from './pages/Homepage';
 import AddContact from './pages/AddContact';
 import EditContact from './pages/EditContact';
+import Profile from './pages/Profile';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
         {/* homepage routes */}
         <Route path='home' element={<Homepage />} />
         <Route path='add' element={<AddContact />} />
+        <Route path='profile' element={<Profile />} />
         <Route path='edit/:id' element={<EditContact />} />
       </Route>
 
